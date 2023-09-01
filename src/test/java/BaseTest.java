@@ -1,11 +1,66 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
+import java.time.Duration;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+
 
 public class BaseTest {
+    static WebDriver driver;
+    public static Actions actions = null;
+    public WebDriverWait wait;
+    public String url;
 
     @BeforeSuite
     static void setupClass() {
         WebDriverManager.chromedriver().setup();
     }
+
+    @BeforeMethod
+    @Parameters({"BaseURL"})
+    public void launchBrowser(String baseURL) {
+        //Added ChromeOptions argument below to fix websocket error
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        url = baseURL;
+        actions = new Actions(driver);
+        navigateToPage();
+
+    }
+    @AfterMethod
+    public void closeBrowser() {
+        driver.quit();
+    }
+
+    public void navigateToPage() {
+        driver.get(url);
+    }
+
+    public void enterEmail(String Email) {
+        WebElement enterEmail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[type='email']")));
+        enterEmail.clear();
+        enterEmail.sendKeys("dominica.dawson@testpro.io");
+    }
+    public void enterPassword(String Password) {
+        WebElement enterPassword = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[type='password']")));
+        enterPassword.clear();
+        enterPassword.sendKeys("te$t$tudent");
+    }
+
+    public void clickSubmit(){
+        WebElement clickSubmit = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[type='submit']")));
+        clickSubmit.click();
+    }
+
 }
