@@ -10,9 +10,6 @@ public class HomePage extends BasePage{
     public HomePage(WebDriver driver) {
         super(driver);
     }
-//    public HomePage(WebDriver driver) {
-//        super(driver);
-//    }
 
     public void clickOnPlaylist(String playlistName) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'" + playlistName + "')]"))).click();

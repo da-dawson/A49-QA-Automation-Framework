@@ -3,7 +3,7 @@ import Pages.PlaylistPage;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class Homework22 extends BaseTest{
+public class Homework23 extends BaseTest{
     LoginPage loginPage;
     PlaylistPage playlistPage;
     public String playListName ;
